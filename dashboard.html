@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>โรงเรียนป่าก้าง — ศูนย์รวมบริการออนไลน์</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    /* Modern Light Theme */
+    --bg-main: #f8fafc;
+    --bg-surface: #ffffff;
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+    --border-light: #e2e8f0;
+    
+    /* Brand Colors */
+    --brand-primary: #2563eb;
+    --brand-secondary: #38bdf8;
+    --brand-glow: rgba(37, 99, 235, 0.15);
+    
+    /* UI Utilities */
+    --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.1), 0 2px 4px -1px rgba(15, 23, 42, 0.06);
+    --shadow-hover: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 10px 10px -5px rgba(15, 23, 42, 0.04);
+    --radius-lg: 20px;
+    --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Sarabun', sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    /* Soft ambient background */
+    background-image: 
+      radial-gradient(circle at 15% 0%, var(--brand-glow) 0%, transparent 50%),
+      radial-gradient(circle at 85% 100%, rgba(56, 189, 248, 0.1) 0%, transparent 50%);
+    background-attachment: fixed;
+  }
+
+  /* Top Bar - Glassmorphism */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+  }
+  
+  .topbar-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .brand { display: flex; align-items: center; gap: 14px; text-decoration: none; color: var(--text-primary); }
+  .brand-mark {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: linear-gradient(135deg, var(--brand-primary), #1e40af);
+    display: grid; place-items: center; color: white;
+    font-family: 'Kanit', sans-serif; font-weight: 700; font-size: 18px;
+    box-shadow: 0 8px 16px var(--brand-glow);
+  }
+  .brand-text { line-height: 1.2; }
+  .brand-text .th { font-family: 'Kanit', sans-serif; font-weight: 600; font-size: 16px; }
+  .brand-text .en { font-size: 11px; color: var(--text-secondary); letter-spacing: 1px; text-transform: uppercase; font-weight: 500; }
+  
+  .topbar-meta { 
+    font-size: 13px; font-weight: 500; color: var(--text-secondary); 
+    display: flex; align-items: center; gap: 8px;
+    background: var(--bg-surface); padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border-light);
+  }
+  .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; animation: pulse 2s infinite; box-shadow: 0 0 8px rgba(16, 185, 129, 0.4); }
+  
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+    70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+  }
+
+  /* Hero Section */
+  .hero { max-width: 1280px; margin: 0 auto; padding: 100px 32px 80px; text-align: center; }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Kanit', sans-serif; font-size: 13px;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--brand-primary); font-weight: 600; margin-bottom: 24px;
+    background: rgba(37, 99, 235, 0.1); padding: 6px 16px; border-radius: 100px;
+  }
+  .hero-title {
+    font-family: 'Kanit', sans-serif; font-weight: 700;
+    font-size: clamp(36px, 5vw, 64px); line-height: 1.1;
+    letter-spacing: -0.02em; margin-bottom: 24px; color: #0f172a;
+  }
+  .hero-title span {
+    background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero-sub { 
+    font-size: 18px; color: var(--text-secondary); 
+    max-width: 600px; margin: 0 auto 48px; line-height: 1.7;
+  }
+  
+  /* Stats Grid in Hero */
+  .hero-stats { 
+    display: flex; gap: 48px; justify-content: center;
+    padding-top: 40px; border-top: 1px solid var(--border-light); flex-wrap: wrap; 
+  }
+  .stat-item .num { font-family: 'Kanit', sans-serif; font-size: 36px; font-weight: 700; color: var(--text-primary); }
+  .stat-item .label { font-size: 14px; color: var(--text-secondary); font-weight: 500; }
+
+  /* Section */
+  .section { max-width: 1280px; margin: 0 auto; padding: 60px 32px; }
+  .section-head { margin-bottom: 48px; text-align: center; }
+  .section-title { font-family: 'Kanit', sans-serif; font-size: 32px; font-weight: 700; color: var(--text-primary); }
+  .section-desc { color: var(--text-secondary); font-size: 16px; margin-top: 8px; }
+
+  /* Service Grid */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+  
+  .card {
+    background: var(--bg-surface); border: 1px solid var(--border-light); 
+    border-radius: var(--radius-lg); padding: 32px; 
+    text-decoration: none; color: var(--text-primary);
+    transition: var(--transition);
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column; min-height: 240px;
+    box-shadow: var(--shadow-sm);
+    z-index: 1;
+  }
+  
+  /* Card Hover Effects */
+  .card:hover {
+    transform: translateY(-6px); 
+    box-shadow: var(--shadow-hover);
+    border-color: var(--accent);
+  }
+  
+  .card:active { transform: translateY(-2px); } /* Natural click feel */
+
+  .card::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: var(--accent);
+    opacity: 0; transition: var(--transition);
+  }
+  .card:hover::before { opacity: 1; }
+
+  .card-icon {
+    width: 56px; height: 56px; border-radius: 16px;
+    background: var(--accent-light); color: var(--accent);
+    display: grid; place-items: center; margin-bottom: 24px;
+    transition: var(--transition);
+  }
+  .card:hover .card-icon { transform: scale(1.1) rotate(-5deg); background: var(--accent); color: white; }
+  .card-icon svg { width: 28px; height: 28px; }
+  
+  .card-title { font-family: 'Kanit', sans-serif; font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+  .card-en { font-size: 12px; color: var(--text-secondary); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; font-weight: 500;}
+  .card-desc { font-size: 15px; color: var(--text-secondary); margin-bottom: 24px; flex-grow: 1; }
+  
+  .card-action {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 600; color: var(--accent);
+    margin-top: auto; transition: var(--transition);
+  }
+  .card:hover .card-action { gap: 12px; }
+  
+  /* Color Classes for Cards */
+  .c-blue   { --accent: #2563eb; --accent-light: #eff6ff; }
+  .c-teal   { --accent: #0d9488; --accent-light: #f0fdfa; }
+  .c-rose   { --accent: #e11d48; --accent-light: #fff1f2; }
+  .c-amber  { --accent: #d97706; --accent-light: #fffbeb; }
+  .c-indigo { --accent: #4f46e5; --accent-light: #eef2ff; }
+  .c-violet { --accent: #7c3aed; --accent-light: #f5f3ff; }
+  .c-slate  { --accent: #475569; --accent-light: #f8fafc; }
+
+  footer { border-top: 1px solid var(--border-light); margin-top: 80px; padding: 40px 32px; background: var(--bg-surface); }
+  .foot-inner {
+    max-width: 1280px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px; font-size: 14px; color: var(--text-secondary);
+  }
+
+  /* Scroll Reveal Animation Classes */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+  .reveal.active { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    .hero { padding: 80px 20px 40px; }
+    .section { padding: 40px 20px; }
+    .topbar-inner { padding: 12px 20px; }
+    .hero-stats { gap: 24px; flex-direction: column; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="#" class="brand">
+      <div class="brand-mark">ปก</div>
+      <div class="brand-text">
+        <div class="th">โรงเรียนป่าก้าง</div>
+        <div class="en">Pa Kang School Cloud</div>
+      </div>
+    </a>
+    <div class="topbar-meta">
+      <span class="live-dot"></span>
+      System Online
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-eyebrow reveal">PKSchool Cloud Services</div>
+  <h1 class="hero-title reveal" style="transition-delay: 100ms;">
+    ศูนย์รวมบริการ<br/>
+    <span>ออนไลน์</span> ของโรงเรียน
+  </h1>
+  <p class="hero-sub reveal" style="transition-delay: 200ms;">
+    เข้าถึงทุกบริการของโรงเรียนป่าก้างได้ในที่เดียว ตั้งแต่ระบบงบประมาณ ตรวจสอบนักเรียน
+    เยี่ยมบ้าน ไปจนถึงระบบเอกสารและจัดซื้อจัดจ้าง — ปลอดภัย ใช้งานง่าย ครบจบในหน้าเดียว
+  </p>
+  <div class="hero-stats reveal" style="transition-delay: 300ms;">
+    <div class="stat-item">
+      <div class="num">7</div>
+      <div class="label">ระบบบริการ</div>
+    </div>
+    <div class="stat-item">
+      <div class="num">24/7</div>
+      <div class="label">เปิดให้ใช้งานตลอด</div>
+    </div>
+    <div class="stat-item">
+      <div class="num">100%</div>
+      <div class="label">เชื่อมต่อระบบคลาวด์</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head reveal">
+    <h2 class="section-title">ระบบบริการของโรงเรียน</h2>
+    <p class="section-desc">เลือกบริการที่ต้องการใช้งาน คลิกการ์ดเพื่อเข้าสู่ระบบโดยตรง</p>
+  </div>
+
+  <div class="grid">
+    <a href="https://pkschool-cloud/pksaving" class="card c-teal reveal">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 7h18M5 7v12a2 2 0 002 2h10a2 2 0 002-2V7M9 11h6"/><circle cx="12" cy="15" r="1.5"/>
+        </svg>
+      </div>
+      <h3 class="card-title">ระบบออมทรัพย์</h3>
+      <div class="card-en">PK Saving</div>
+      <p class="card-desc">บันทึก ตรวจสอบ และจัดการเงินออมของนักเรียนและบุคลากรได้อย่างแม่นยำ</p>
+      <span class="card-action">เข้าสู่ระบบ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+    </a>
+
+    <a href="https://pkschool-cloud/Check-Student" class="card c-blue reveal" style="transition-delay: 100ms;">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/><path d="M16 11l2 2 4-4"/>
+        </svg>
+      </div>
+      <h3 class="card-title">ตรวจสอบนักเรียน</h3>
+      <div class="card-en">Check Student</div>
+      <p class="card-desc">ค้นหาและตรวจสอบข้อมูลประวัตินักเรียน และสถานะการเรียนแบบเรียลไทม์</p>
+      <span class="card-action">เข้าสู่ระบบ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+    </a>
+
+    <a href="https://pkschool-cloud/pkdocumentary" class="card c-indigo reveal" style="transition-delay: 200ms;">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/>
+        </svg>
+      </div>
+      <h3 class="card-title">ระบบเอกสาร</h3>
+      <div class="card-en">PK Documentary</div>
+      <p class="card-desc">จัดการคลังเอกสารราชการ ค้นหาและดาวน์โหลดแบบฟอร์มต่างๆ ของโรงเรียน</p>
+      <span class="card-action">เข้าสู่ระบบ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+    </a>
+
+    <a href="https://pkschool-cloud/pkegp" class="card c-amber reveal">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 11H5a2 2 0 00-2 2v7a2 2 0 002 2h14a2 2 0 002-2v-7a2 2 0 00-2-2h-4"/><path d="M9 11V5a3 3 0 016 0v6"/>
+        </svg>
+      </div>
+      <h3 class="card-title">ระบบจัดซื้อจัดจ้าง</h3>
+      <div class="card-en">PK e-GP</div>
+      <p class="card-desc">บริหารและติดตามกระบวนการจัดซื้อจัดจ้างภาครัฐอย่างโปร่งใสและตรวจสอบได้</p>
+      <span class="card-action">เข้าสู่ระบบ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+    </a>
+
+    <a href="https://pkschool-cloud/e-budget" class="card c-rose reveal" style="transition-delay: 100ms;">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/><circle cx="11" cy="10" r="1" fill="currentColor"/>
+        </svg>
+      </div>
+      <h3 class="card-title">ระบบงบประมาณ</h3>
+      <div class="card-en">e-Budget</div>
+      <p class="card-desc">วางแผนโครงสร้าง ติดตาม และรายงานผลการใช้งบประมาณของสถาบัน</p>
+      <span class="card-action">เข้าสู่ระบบ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+    </a>
+
+    <a href="https://pkschool-cloud/visitstudents" class="card c-violet reveal" style="transition-delay: 200ms;">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/>
+        </svg>
+      </div>
+      <h3 class="card-title">เยี่ยมบ้านนักเรียน</h3>
+      <div class="card-en">Visit Students</div>
+      <p class="card-desc">แพลตฟอร์มบันทึกและประเมินผลการเยี่ยมบ้านนักเรียนสำหรับครูที่ปรึกษา</p>
+      <span class="card-action">เข้าสู่ระบบ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <div>© โรงเรียนป่าก้าง · Pa Kang School Cloud Services</div>
+    <div>พัฒนาโดย ทีมไอที โรงเรียนป่าก้าง</div>
+  </div>
+</footer>
+
+<script>
+  // Smooth Scroll Reveal Animation using Intersection Observer
+  document.addEventListener("DOMContentLoaded", () => {
+    const observerOptions = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.15
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target); // ป้องกันไม่ให้เล่นแอนิเมชันซ้ำเมื่อเลื่อนขึ้นลง
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => {
+      observer.observe(el);
+    });
+  });
+</script>
+
+</body>
+</html>
